@@ -32,7 +32,7 @@ public class App01 {
             int calculatorLogicFlag = calculator.readInteger(sc);
             // 올바른 번호를 입력할 때까지 반복해서 입력받음
             while(calculatorLogicFlag <= 0 || calculatorLogicFlag > 5){
-                System.out.print("잘못된 번호입니다 다시 선택해주세요: ");
+                System.out.print("잘못된 번호입니다. 1-5 사이의 번호를 입력해주세요: ");
                 calculatorLogicFlag = calculator.readInteger(sc);
             }
 
