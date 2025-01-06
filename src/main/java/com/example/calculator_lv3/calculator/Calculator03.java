@@ -1,6 +1,7 @@
 package com.example.calculator_lv3.calculator;
 
-import com.example.calculator_lv3.operation.Operation;
+import com.example.calculator_lv3.operation.*;
+
 import java.util.ArrayList;
 import java.util.*;
 
@@ -24,30 +25,6 @@ public class Calculator03 {
 
     public void setSecondNumber(double secondNumber){
         this.secondNumber = secondNumber;
-    }
-
-    // 첫 번째 원소 제거하는 메서드
-    public boolean removeOldestRecord(){
-        if(!problemHistoryList.isEmpty()){
-            problemHistoryList.remove(0);
-            answerHistoryList.remove(0);
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    // 첫 번째 원소 조회하는 메서드
-    public Optional<String> showOldestRecord(){
-        Optional<String> optional;
-        if(!problemHistoryList.isEmpty()){
-            optional = Optional.of("가장 오래된 연산: " + problemHistoryList.get(0) + " = " + answerHistoryList.get(0));
-        }
-        else{
-            optional = Optional.empty();
-        }
-        return optional;
     }
 
     // 기록된 계산 결과 가져오는 메서드
@@ -74,7 +51,7 @@ public class Calculator03 {
         return optional;
     }
 
-    public boolean deleteRecord(int number){
+    public boolean removeRecord(int number){
         if(getRecordSize() == 0 || answerHistoryList.size() < number){
             return false;
         }
@@ -92,6 +69,23 @@ public class Calculator03 {
 
     // 연산을 진행하는 메서드
     public double calculate(){
-        return operation.operate(firstNumber, secondNumber);
+
+        if(operation instanceof AddOperation){
+            problemHistoryList.add(firstNumber + " + " + secondNumber);
+        }
+        else if(operation instanceof SubtractOperation){
+            problemHistoryList.add(firstNumber + " - " + secondNumber);
+        }
+        else if(operation instanceof MultiplyOperation){
+            problemHistoryList.add(firstNumber + " * " + secondNumber);
+        }
+        else if(operation instanceof DivideOperation){
+            problemHistoryList.add(firstNumber + " / " + secondNumber);
+        }
+
+        double answer = operation.operate(firstNumber, secondNumber);
+        answerHistoryList.add(answer);
+
+        return answer;
     }
 }

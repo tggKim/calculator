@@ -15,4 +15,13 @@ public enum Symbol {
     public String getSymbol(){
         return symbol;
     }
+
+    public static Symbol fromSymbol(String symbol) {
+        for (Symbol op : Symbol.values()) {
+            if (op.getSymbol().equals(symbol)) {
+                return op;
+            }
+        }
+        return null;
+    }
 }
