@@ -1,9 +1,11 @@
 package com.example.calculator_lv3.calculator;
 
+import com.example.calculator_lv3.exception.DivisionByZeroException;
 import com.example.calculator_lv3.operation.*;
 
 import java.util.ArrayList;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Calculator03 {
 
@@ -12,19 +14,8 @@ public class Calculator03 {
     private List<String> problemHistoryList = new ArrayList<>();
     private List<Double> answerHistoryList = new ArrayList<>();
 
-    private double firstNumber;
-    private double secondNumber;
-
     public void setOperation(Operation operation){
         this.operation = operation;
-    }
-
-    public void setFirstNumber(double firstNumber){
-        this.firstNumber = firstNumber;
-    }
-
-    public void setSecondNumber(double secondNumber){
-        this.secondNumber = secondNumber;
     }
 
     // 기록된 계산 결과 가져오는 메서드
@@ -62,13 +53,13 @@ public class Calculator03 {
         }
     }
 
-    // 연산 기록을 리턴하는 메서드
+    // 연산 기록 크기를 리턴하는 메서드
     public int getRecordSize(){
         return answerHistoryList.size();
     }
 
     // 연산을 진행하는 메서드
-    public double calculate(){
+    public double calculate(double firstNumber, double secondNumber) throws DivisionByZeroException {
 
         if(operation instanceof AddOperation){
             problemHistoryList.add(firstNumber + " + " + secondNumber);
@@ -80,6 +71,9 @@ public class Calculator03 {
             problemHistoryList.add(firstNumber + " * " + secondNumber);
         }
         else if(operation instanceof DivideOperation){
+            if(secondNumber == 0.0){
+                throw new DivisionByZeroException("0으로 나눌 수 없습니다 두 번째 숫자 다시 입력하세요: ");
+            }
             problemHistoryList.add(firstNumber + " / " + secondNumber);
         }
 
@@ -87,5 +81,10 @@ public class Calculator03 {
         answerHistoryList.add(answer);
 
         return answer;
+    }
+
+    public List<Double> getLargerRecord(double number){
+        return answerHistoryList.stream().filter(value -> value > number)
+                .toList();
     }
 }
